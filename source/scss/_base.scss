@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;500&display=swap');
+
+$primary: #FF5400;
+$secondary: #70baff;
+$dark: #272727;
+$white: #FFFFFF;
+$gradient-primary: linear-gradient(to bottom, #FE471C, #FF7904);
+$font-primary: 'Barlow', sans-serif;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  color: $white;
+  background-color: $dark;
+  font-family: $font-primary;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+a {
+  text-decoration: none;
+  transition: .3s;
+}
+
+ul {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+}
+
+svg {
+  vertical-align: bottom;
+}
+
+.container {
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 6px 4px 10px;
+  background-color: $primary;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: 500;
+  color: $white;
+  position: relative;
+  z-index: 1;
+  &::after {
+    position: absolute;
+    content: "";
+    height: 100%;
+    width: 20px;
+    background-color: $primary;
+    border-radius: 10px 5px;
+    right: -4px;
+    top: 0;
+    z-index: -1;
+    transform: skewX(16deg);
+  }
+}
+
+.button {
+  display: inline-block;
+  padding: 8px 18px;
+  background-color: #323232;
+  border: 1px solid rgba($white, 0.3);
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: 500;
+  color: $white;
+  transition: .3s;
+  &:hover {
+    border-color: $primary;
+    background-color: $primary;
+  }
+}
+
+.section-title {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  .title {
+    font-size: 32px;
+    font-weight: 500;
+  }
+  .button-block {
+    @include mobile-xs {
+      display: none;
+    }
+  }
+}

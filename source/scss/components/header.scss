@@ -1,0 +1,500 @@
+header {
+  background: linear-gradient(to bottom, rgba(0,0,0,0.9), rgba(0,0,0,0.35), transparent);
+  position: relative;
+  z-index: 55;
+  .header-block {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 25px;
+    max-width: 1560px;
+    margin: 0 auto;
+    @include desktop {
+      padding: 15px 16px;
+      transition: 0.3s;
+      &.invisible {
+        opacity: 0;
+        visibility: hidden;
+      }
+      .logo {
+        order: 1;
+      }
+      .header-actions {
+        order: 2;
+      }
+      nav {
+        order: 3;
+      }
+    }
+  }
+
+  nav {
+    @include desktop {
+      display: flex;
+      flex-direction: column-reverse;
+      position: fixed;
+      left: 0;
+      top: 0;
+      height: 100vh;
+      overflow-x: hidden;
+      width: 100%;
+      width: 280px;
+      max-width: 85%;
+      justify-content: start;
+      z-index: 20;
+      padding: 10px;
+      transform: translateX(-100%);
+      transition: 0.25s;
+      &.active {
+        transform: translateX(0);
+      }
+      &::after {
+        position: absolute;
+        content: "";
+        height: 100%;
+        width: 100%;
+        left: 0;
+        top: 0;
+        z-index: -1;
+        border-radius: inherit;
+        background-color: rgba(#000, 0.3);
+        backdrop-filter: blur(24px);
+      }
+    }
+    ul {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      @include desktop {
+        display: block;
+      }
+      li a {
+        display: inline-block;
+      }
+      &.nav-secondary {
+        margin-bottom: 12px;
+        li > a {
+          padding: 2px 15px;
+          color: rgba($white, 0.75);
+          text-decoration: none;
+          transition: color .25s;
+          &:hover {
+            color: $white;
+          }
+        }
+        @include desktop {
+          margin-top: auto;
+          li {
+            display: inline-block;
+            a {
+              padding: 3px 6px 3px 10px;
+            }
+          }
+        }
+      }
+      &.nav-primary {
+        border-radius: 100px;
+        padding-left: 5px;
+        position: relative;
+        z-index: 20;
+        @include desktop {
+          margin-top: 10px;
+        }
+        &::after {
+          position: absolute;
+          content: "";
+          height: 100%;
+          width: 100%;
+          left: 0;
+          top: 0;
+          border-radius: inherit;
+          background-color: rgba(#000, 0.3);
+          backdrop-filter: blur(24px);
+          z-index: -1;
+          @include desktop {
+            display: none;
+          }
+        }
+        &:hover {
+          li:not(:hover) > a {
+            opacity: .5;
+            @include desktop {
+              opacity: 1 !important;
+            }
+          }
+        }
+        li {
+          & > a {
+            color: $white;
+            position: relative;
+            padding: 20px 28px;
+            font-weight: 400;
+            display: flex;
+            align-items: center;
+            @include desktop {
+              padding: 12px 10px;
+              opacity: 1 !important;
+            }
+            &:hover {
+              opacity: 1 !important;
+            }
+            .icon {
+              margin-right: 10px;
+              pointer-events: none;
+            }
+            &::after {
+              content: "";
+              position: absolute;
+              right: .55rem;
+              top: calc(50% - .4rem);
+              height: .3rem;
+              width: .3rem;
+              transform: rotate(45deg);
+              border-radius: .125rem;
+              border: 2px solid $white;
+              border-top-color: transparent;
+              border-left-color: transparent;
+              opacity: .5;
+              z-index: 11;
+              transition: 0.25s;
+            }
+          }
+        }
+        .search-toggler {
+          margin-left: 16px;
+          button {
+            height: 65px;
+            width: 65px;
+            border-radius: 100%;
+            color: $white;
+            background: $gradient-primary;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: none;
+          }
+          @include desktop {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+.overlay {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  top: 0;
+  background-color: rgba(#000, 0.5);
+  z-index: 1;
+  transition: 0.3s;
+  opacity: 0;
+  visibility: hidden;
+  cursor: pointer;
+  &.active {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+.nav-overlay {
+  @extend .overlay;
+  @include desktop {
+    display: none;
+  }
+}
+.mobile-menu-overlay {
+  @extend .overlay;
+  display: none;
+  @include desktop {
+    display: block;
+  }
+}
+
+.dropdown-menu {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  margin-top: 32px;
+  z-index: 99;
+  padding: 20px 25px;
+  border-radius: 12px;
+  background-color: rgba($white, 0.1);
+  backdrop-filter: blur(30px);
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.125s;
+  overflow: hidden;
+  @include desktop {
+    position: static;
+    display: none;
+    padding: 15px 10px;
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 10px;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
+  }
+  .block {
+    color: $white;
+    &:not(:last-child) {
+      margin-bottom: 10px;
+    }
+    &-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 24px;
+      border-radius: 8px;
+      background-color: rgba(#000, 0.25);
+      p {
+        font-size: 20px;
+        font-weight: 500;
+      }
+      a {
+        font-size: 15px;
+        font-weight: 500;
+        color: $white;
+        line-height: 1;
+        &:hover {
+          color: $secondary;
+        }
+        svg {
+          display: none;
+        }
+        @include desktop {
+          span {
+            display: none;
+          }
+          svg {
+            display: inline-block;
+          }
+        }
+      }
+    }
+    &-links {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      grid-gap: 0rem;
+      padding: 10px 0;
+      a {
+        color: $white;
+        padding: 8px;
+        line-height: 1.1;
+        &:hover {
+          background-color: rgba($white, 0.15);
+        }
+      }
+      &.platforms {
+        a {
+          display: flex;
+          align-items: center;
+          border-radius: 100px;
+          span {
+            margin-left: 10px;
+          }
+        }
+        img {
+          max-width: 36px;
+        }
+      }
+      &.gift-cards {
+        a {
+          border-radius: 8px;
+          display: block;
+          text-align: center;
+          span {
+            display: block;
+            margin-top: 8px;
+            @include desktop {
+              margin-top: 4px;
+            }
+          }
+          @include desktop {
+            &:not(:last-child) {
+              margin-bottom: 10px;
+            }
+          }
+        }
+        img {
+          margin: auto;
+          max-width: 120px;
+          max-height: 32px;
+        }
+      }
+    }
+  }
+
+}
+
+.dropdown {
+  &.active {
+    & > a::after {
+      opacity: 1;
+    }
+    .dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      margin-top: 18px;
+      transition: 0.25s;
+      @include desktop {
+        display: block;
+        max-height: 60vh;
+        overflow-y: auto;
+        margin-top: 0;
+      }
+    }
+  }
+}
+
+.header-actions {
+  display: flex;
+  padding-top: 5px;
+  button {
+    background-color: transparent;
+    border: none;
+    color: $white;
+  }
+  a {
+    color: $secondary;
+  }
+
+  [data-target="search-open-mobile"], [data-target="mobile-menu"], .cart, .user {
+    height: 46px;
+    width: 46px;
+    cursor: pointer;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color .15s;
+    &:hover {
+      background-color: rgba(#101010, .8);
+    }
+  }
+  .user {
+    margin-left: 12px;
+    background-color: rgba(#101010, .8);
+  }
+  [data-target="search-open-mobile"],
+  [data-target="mobile-menu"] {
+    display: none;
+    @include desktop {
+      display: block;
+    }
+  }
+  [data-target="mobile-menu"] {
+    display: none;
+    @include desktop {
+      display: block;
+    }
+    margin-left: 10px;
+    background-color: $white;
+    color: #000;
+    &:hover {
+      background-color: $secondary;
+    }
+  }
+}
+
+.search-wrapper {
+  position: absolute;
+  height: 0;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  background: $gradient-primary;
+  border-radius: 100px;
+  z-index: 33;
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.3s;
+  transform: translateY(-50%);
+  @include desktop {
+    display: none;
+  }
+  &.active {
+    opacity: 1;
+    visibility: visible;
+    height: 100%;
+  }
+  &-mobile {
+    display: none;
+    height: 56px;
+    left: 15px;
+    top: 15px;
+    transform: translateY(0);
+    width: calc(100% - 90px);
+    @include desktop {
+      display: block;
+    }
+    &.active {
+      height: 56px;
+    }
+  }
+  form {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+  }
+  label {
+    cursor: pointer;
+    white-space: nowrap;
+    @include mobile {
+      display: none;
+    }
+  }
+  input {
+    height: 100%;
+    flex: 1 1 auto;
+    width: 1%;
+    padding-right: 10px;
+    border: none;
+    outline: 0;
+    background-color: transparent;
+    color: $white;
+    font-weight: 500;
+    font-size: 1.05rem;
+    &::placeholder {
+      color: rgba($white, 0.6);
+    }
+  }
+  [data-target="search-close"] {
+    border: 0;
+    background-color: transparent;
+    padding: 10px;
+    position: absolute;
+    right: -50px;
+    bottom: 9px;
+    cursor: pointer;
+    transition: 0.2s;
+    &:hover {
+      opacity: .5;
+      transform: scale(1.1);
+    }
+    @include desktop {
+      background-color: $primary;
+      border-radius: 12px;
+      height: 46px;
+      width: 46px;
+      bottom: 5px;
+      right: -59px;
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+}
